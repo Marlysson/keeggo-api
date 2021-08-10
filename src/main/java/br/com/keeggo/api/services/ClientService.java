@@ -37,15 +37,19 @@ public class ClientService {
 			errors.add(String.format("The cpf isn't a valid. Should have %d characters.", CPF_LENGTH));
 		}
 		
-		Client clientByCpf = repository.findByCpf(client.getCpf());
-		
-		if ( client.getId() == null && clientByCpf != null ) {
-			errors.add("This client already is created.");
-		}
-		
 		List<String> addressErrors = addressService.validate(client.getAddress());
 		errors.addAll(addressErrors);
+		
+		if ( errors.isEmpty() ) {
 
+			Client clientByCpf = repository.findByCpf(client.getCpf());
+			
+			if ( client.getId() == null && clientByCpf != null ) {
+				errors.add("This client already is created.");
+			}
+			
+		}
+		
 		return errors;
 		
 	}
