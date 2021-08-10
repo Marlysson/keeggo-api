@@ -2,8 +2,10 @@ package br.com.keeggo.api.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.keeggo.api.models.Address;
@@ -56,5 +58,18 @@ public class ClientService {
 		
 		client.setAddress(address);
 		return repository.save(client);
+	}
+	
+	public void delete(Client client) {
+		repository.delete(client);
+	}
+	
+	public Client findClientBy(Long id) {
+		Optional<Client> result = repository.findById(id);
+		return result.orElse(null);
+	}
+
+	public List<Client> findAllClients() {
+		return repository.findAll();
 	}
 }
