@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,24 @@ public class ClientController {
 	@Autowired
 	private ClientService service;
 	
+	@GetMapping("")
+	public ResponseEntity<?> all(){
+		return ResponseEntity.ok(service.findAllClients());
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> retrieve(@PathVariable Long id){
+		
+		Client client = service.findClientBy(id);
+		
+		if ( client == null ) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		return ResponseEntity.ok(client);
+		
+	}
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id){
 		
@@ -33,11 +52,6 @@ public class ClientController {
 		
 		service.delete(client);
 		return ResponseEntity.noContent().build();
-	}
-	
-	@GetMapping("")
-	public ResponseEntity<?> all(){
-		return ResponseEntity.ok(service.findAllClients());
 	}
 	
 	@PostMapping("/")
@@ -52,5 +66,19 @@ public class ClientController {
 		Client client = service.create(clientPayload);
 		
 		return new ResponseEntity<>(client, HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Client newClientPayload){
+		
+		Client client = service.findClientBy(id);
+		
+		if ( client == null ) {
+			return ResponseEntity.notFound().build();
+		}
+
+		client = service.update(client, newClientPayload);
+		
+		return new ResponseEntity<>(client, HttpStatus.OK);
 	}
 }

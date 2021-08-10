@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.keeggo.api.models.Address;
@@ -72,4 +71,35 @@ public class ClientService {
 	public List<Client> findAllClients() {
 		return repository.findAll();
 	}
+	
+	public Client update(Client client, Client clientUpdated) {
+		
+		if ( clientUpdated.getName() != null && !clientUpdated.getName().isEmpty() ) {
+			client.setName(clientUpdated.getName());
+		}
+		
+		if ( clientUpdated.getAddress() != null ) {
+			
+			if ( clientUpdated.getAddress().getUf() != null && !clientUpdated.getAddress().getUf().isEmpty() ) {
+				client.getAddress().setUf(clientUpdated.getAddress().getUf());
+			}
+			
+			if ( clientUpdated.getAddress().getUf() != null && !clientUpdated.getAddress().getCity().isEmpty() ) {
+				client.getAddress().setCity(clientUpdated.getAddress().getCity());
+			}
+			
+			if ( clientUpdated.getAddress().getStreet() != null && !clientUpdated.getAddress().getStreet().isEmpty() ) {
+				client.getAddress().setStreet(clientUpdated.getAddress().getStreet());
+			}
+			
+			if ( clientUpdated.getAddress().getNumber() != null && clientUpdated.getAddress().getNumber() != null ) {
+				client.getAddress().setNumber(clientUpdated.getAddress().getNumber());
+			}
+			
+		}
+		
+		return repository.save(client);
+		
+	}
+	
 }
