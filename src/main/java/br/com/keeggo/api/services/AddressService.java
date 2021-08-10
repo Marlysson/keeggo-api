@@ -19,20 +19,27 @@ public class AddressService {
 		
 		List<String> errors = new ArrayList<>();
 		
-		if ( address.getUf() == null || address.getUf().isEmpty()) {
-			errors.add("The 'address.uf' field shouldn't be empty.");
-		}
-		
-		if ( address.getCity() == null || address.getCity().isEmpty()) {
-			errors.add("The 'address.city' field shouldn't be empty.");
-		}
-		
-		if ( address.getStreet() == null || address.getStreet().isEmpty()) {
-			errors.add("The 'address.street' field shouldn't be empty.");
-		}
-		
-		if ( address.getNumber() == null || address.getNumber() == null ) {
-			errors.add("The 'address.number' field shouldn't be empty.");
+		if ( address == null ) {
+			errors.add("The address shouldn't be empty.");
+			
+		}else {
+			
+			if ( address.getUf() == null || address.getUf().isEmpty()) {
+				errors.add("The 'address.uf' field shouldn't be empty.");
+			}
+			
+			if ( address.getCity() == null || address.getCity().isEmpty()) {
+				errors.add("The 'address.city' field shouldn't be empty.");
+			}
+			
+			if ( address.getStreet() == null || address.getStreet().isEmpty()) {
+				errors.add("The 'address.street' field shouldn't be empty.");
+			}
+			
+			if ( address.getNumber() == null || address.getNumber() == null ) {
+				errors.add("The 'address.number' field shouldn't be empty.");
+			}
+			
 		}
 		
 		return errors;
