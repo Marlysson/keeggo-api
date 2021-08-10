@@ -33,8 +33,18 @@ public class ClientService {
 		if ( client.getCpf() == null || client.getCpf().isEmpty() ) {
 			errors.add("The cpf field should'nt be empty.");
 			
-		}else if ( client.getCpf().length() != CPF_LENGTH ){
-			errors.add(String.format("The cpf isn't a valid. Should have %d characters.", CPF_LENGTH));
+		}else {
+
+			// Naive implementation
+			
+			String cpfRegex = String.format("\\d{%d}", CPF_LENGTH);
+			
+			boolean isRightLengthAndOnlyNumbers = client.getCpf().matches(cpfRegex);
+			
+			if ( !isRightLengthAndOnlyNumbers ) {
+				errors.add(String.format("The cpf isn't a valid. Should have %d characters and only numbers.", CPF_LENGTH));
+			}
+			
 		}
 		
 		List<String> addressErrors = addressService.validate(client.getAddress());
