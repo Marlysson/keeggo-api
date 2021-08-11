@@ -15,19 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.keeggo.api.models.Client;
 import br.com.keeggo.api.services.ClientService;
+import io.swagger.annotations.ApiOperation;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @RestController
 @RequestMapping("/clients")
+@EnableSwagger2
 public class ClientController {
 		
 	@Autowired
 	private ClientService service;
 	
+	@ApiOperation(value="Retrieve all clients.")
 	@GetMapping("")
 	public ResponseEntity<?> all(){
 		return ResponseEntity.ok(service.findAllClients());
 	}
-
+	
+	@ApiOperation(value="Retrive one client by id.")
 	@GetMapping("/{id}")
 	public ResponseEntity<?> retrieve(@PathVariable Long id){
 		
@@ -40,7 +45,8 @@ public class ClientController {
 		return ResponseEntity.ok(client);
 		
 	}
-
+	
+	@ApiOperation(value="Delete one clients.")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id){
 		
@@ -54,6 +60,7 @@ public class ClientController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(value="Create a client.")
 	@PostMapping("/")
 	public ResponseEntity<?> create(@RequestBody Client clientPayload) {
 		
@@ -68,6 +75,7 @@ public class ClientController {
 		return new ResponseEntity<>(client, HttpStatus.CREATED);
 	}
 	
+	@ApiOperation(value="Update a client.")
 	@PutMapping("/{id}")
 	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Client newClientPayload){
 		
